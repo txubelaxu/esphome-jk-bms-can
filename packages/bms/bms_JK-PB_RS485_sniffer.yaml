@@ -20,4 +20,17 @@ jk_rs485_sniffer:
     protocol_version: ${sniffer_protocol}
     rx_timeout: 500ms
     uart_id: ${sniffer_uart_id}
-    broadcast_to_all_bms: True
+
+switch:
+  - platform: template
+    name: "Broadcast changes to all BMSs"
+    id: broadcast_active
+    icon: "mdi:cast"
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    turn_on_action:
+      - lambda: |-
+          id(sniffer0).set_broadcast_changes_to_all_bms(true);  
+    turn_off_action:
+      - lambda: |-
+          id(sniffer0).set_broadcast_changes_to_all_bms(false);  
